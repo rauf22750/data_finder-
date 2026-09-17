@@ -1,0 +1,18 @@
+CATEGORY_CHOICES = [
+    ("E-commerce Businesses", "E-commerce Businesses"),
+    ("Property and Real Estate", "Property / Real Estate"),
+    ("Mobile Shops", "Mobile Shops"),
+    ("Wood and Furniture Businesses", "Wood / Furniture Business"),
+    ("Software Houses", "Software Houses"),
+    ("Restaurants", "Restaurants"),
+    ("Hotels", "Hotels"),
+    ("Hospitals", "Hospitals"),
+    ("Schools", "Schools"),
+    ("Dentists", "Dentists"),
+    ("Car Dealers", "Car Dealers"),
+    ("Electronics Stores", "Electronics Stores"),
+    ("Construction Companies", "Construction Companies"),
+    ("Marketing Agencies", "Marketing Agencies"),
+    ("Textile Businesses", "Textile Businesses"),
+    ("Travel Agencies", "Travel Agencies"),
+]

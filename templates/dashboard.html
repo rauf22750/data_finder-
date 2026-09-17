@@ -1,0 +1,22 @@
+{% extends 'base.html' %}{% block title %}Dashboard · Business Data Finder{% endblock %}
+{% block content %}
+<div class="page-heading"><div><h1>Find your next business lead</h1><p>Search verified place information by market and category.</p></div>{% if latest_search %}<a class="secondary-button" href="{% url 'finder:results' %}?search={{ latest_search.id }}">View latest {{ latest_search.result_count }} results →</a>{% endif %}</div>
+<section class="stats-grid">
+<div class="stat-card"><span>Total Searches</span><strong>{{ stats.searches }}</strong><small>All-time searches</small></div>
+<div class="stat-card"><span>Businesses Found</span><strong>{{ stats.businesses }}</strong><small>Unique places</small></div>
+<div class="stat-card"><span>With Phone</span><strong>{{ stats.with_phone }}</strong><small>Ready to contact</small></div>
+<div class="stat-card"><span>With Website</span><strong>{{ stats.with_website }}</strong><small>Online presence</small></div>
+</section>
+<section class="panel search-panel"><div class="panel-title"><div class="icon-box">⌕</div><div><h2>Search businesses</h2><p>Select the location step by step, then choose a business category.</p></div></div>
+<form id="searchForm" data-search-url="{% url 'finder:search' %}" data-results-url="{% url 'finder:results' %}" data-provinces-url="{% url 'finder:provinces' %}" data-cities-url="{% url 'finder:cities' %}" data-areas-url="{% url 'finder:areas' %}">{% csrf_token %}
+<div class="form-grid"><label>Data provider<span>*</span><select name="provider"><option value="osm" selected>OpenStreetMap — Free</option><option value="google">Google Places — Paid</option></select></label><label>Country<span>*</span><select id="countrySelect" name="country" required><option value="">Select a country</option>{% for country in countries %}<option value="{{ country.name }}" data-code="{{ country.code }}">{{ country.name }}</option>{% endfor %}</select><small class="field-help">Open the list and type to jump to a country.</small></label>
+<label>Province / State<span>*</span><select id="provinceSelect" name="province" required disabled><option value="">Select a country first</option></select><small id="provinceStatus" class="field-help">Provinces load after country selection.</small></label>
+<label>City<span>*</span><select id="citySelect" name="city" required disabled><option value="">Select a province first</option></select><small id="cityStatus" class="field-help">Cities load after province selection.</small></label>
+<label>Area<span>*</span><select id="areaSelect" name="area" required disabled><option value="">Select a city first</option></select><input id="customArea" class="d-none mt-2" maxlength="150" placeholder="Type your area / neighbourhood"><small id="areaStatus" class="field-help">Areas load after city selection.</small></label>
+<label>Business category<span>*</span><select name="category" required><option value="">Select a category</option>{% for value, label in categories %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select></label>
+<label>Keyword <em>Optional</em><input name="keyword" maxlength="150" placeholder="e.g. iPhone Repair"></label>
+<label>Number of results<select name="limit"><option>10</option><option selected>20</option><option>50</option><option>100</option></select></label></div>
+<div class="form-footer"><div class="quota-note">ⓘ OpenStreetMap is free but rate-limited. Google Places requires billing.</div><button class="primary-button" type="submit"><span class="button-label">Search businesses</span><span class="loading-label d-none"><span class="spinner-border spinner-border-sm"></span> Searching places...</span></button></div>
+</form></section>
+<section class="how-it-works"><h3>How it works</h3><div><article><b>1</b><span><strong>Define your market</strong><small>Country, province, city, and area.</small></span></article><article><b>2</b><span><strong>Choose the business</strong><small>Select a category and optional keyword.</small></span></article><article><b>3</b><span><strong>Export your leads</strong><small>Download selected results.</small></span></article></div></section>
+{% endblock %}
