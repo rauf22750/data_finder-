@@ -1,10 +1,15 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/index.py", "use": "@vercel/python" }
+    { "src": "api/index.py", "use": "@vercel/python" },
+    {
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "../static" }
+    }
   ],
   "routes": [
-    { "src": "/static/(.*)", "continue": true },
+    { "src": "/static/(.*)", "dest": "/$1" },
     { "src": "/(.*)", "dest": "api/index.py" }
   ]
 }
