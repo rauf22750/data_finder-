@@ -44,6 +44,16 @@ The first run installs frontend packages if needed. Later runs rebuild React and
 python start.py --skip-build
 ```
 
+## Deploy to Vercel
+
+The repository includes `vercel.json` and `api/index.py` for deploying the Django API and built React bundle as one Vercel project:
+
+```bash
+vercel
+```
+
+In Vercel Project Settings, add the values from `.env.example` as Environment Variables. At minimum set a strong `SECRET_KEY`, `DEBUG=False`, `ALLOWED_HOSTS=.vercel.app`, and any Google/OSM settings you use. Vercel's filesystem is temporary, so the default `/tmp/business_data.json` is only a short-lived cache; saved searches and manual edits are not durable across cold starts or redeploys. For persistent production data, set `JSON_DATA_FILE` only when using a mounted persistent store, or migrate `JSONDataStore` to a managed Postgres/Neon database before launch.
+
 You can also pass Django server arguments, for example `python start.py 0.0.0.0:8080`.
 
 ## Installation — Windows PowerShell

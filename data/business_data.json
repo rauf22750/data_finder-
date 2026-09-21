@@ -1,7 +1,21 @@
 {
-  "next_search_id": 3,
+  "next_search_id": 4,
   "next_result_id": 27,
   "searches": [
+    {
+      "id": 3,
+      "provider": "osm",
+      "country": "Finland",
+      "province": "Uusimaa",
+      "city": "Helsinki",
+      "area": "All Helsinki",
+      "category": "Travel Agencies",
+      "keyword": "",
+      "result_count": 0,
+      "created_at": "2026-09-18T15:31:06.642845+00:00",
+      "created_display": "Sep 18, 2026 15:31",
+      "results": []
+    },
     {
       "id": 2,
       "provider": "osm",

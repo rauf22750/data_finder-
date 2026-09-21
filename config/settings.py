@@ -7,7 +7,12 @@ load_dotenv(BASE_DIR / ".env")
 
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-development-key")
 DEBUG = os.getenv("DEBUG", "False").lower() in {"1", "true", "yes"}
+_vercel_host = os.getenv("VERCEL_URL", "").strip()
 ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1,testserver").split(",") if h.strip()]
+if _vercel_host and _vercel_host not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(_vercel_host)
+if os.getenv("VERCEL") and ".vercel.app" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(".vercel.app")
 
 INSTALLED_APPS = [
     "django.contrib.staticfiles",
@@ -44,11 +49,15 @@ OSM_OVERPASS_FALLBACKS = [url.strip() for url in os.getenv(
     "OSM_OVERPASS_FALLBACKS",
     "https://overpass.private.coffee/api/interpreter,https://maps.mail.ru/osm/tools/overpass/api/interpreter",
 ).split(",") if url.strip()]
-_json_data_path = Path(os.getenv("JSON_DATA_FILE", "data/business_data.json"))
+_json_data_path = Path(os.getenv("JSON_DATA_FILE", "/tmp/business_data.json" if os.getenv("VERCEL") else "data/business_data.json"))
 JSON_DATA_FILE = _json_data_path if _json_data_path.is_absolute() else BASE_DIR / _json_data_path
 ENABLE_EMAIL_ENRICHMENT = os.getenv("ENABLE_EMAIL_ENRICHMENT", "True").lower() in {"1", "true", "yes"}
 EMAIL_ENRICHMENT_MAX = min(50, max(0, int(os.getenv("EMAIL_ENRICHMENT_MAX", "20"))))
 EMAIL_ENRICHMENT_TIMEOUT = max(2, int(os.getenv("EMAIL_ENRICHMENT_TIMEOUT", "6")))
+
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",") if origin.strip()]
+if _vercel_host:
+    CSRF_TRUSTED_ORIGINS.append(f"https://{_vercel_host}")
 
 # Safe production defaults; terminate TLS at the app or set the proxy header correctly.
 if not DEBUG:
