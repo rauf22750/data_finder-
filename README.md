@@ -46,9 +46,10 @@ python start.py --skip-build
 
 ## Deploy to Vercel
 
-The repository includes `vercel.json` and `api/index.py` for deploying the Django API and built React bundle as one Vercel project:
+The repository includes `vercel.json` and `api/index.py` for deploying the Django API and the committed React bundle as one Vercel project. Rebuild the bundle before pushing frontend changes:
 
 ```bash
+cd frontend && npm install && npm run build && cd ..
 vercel
 ```
 
